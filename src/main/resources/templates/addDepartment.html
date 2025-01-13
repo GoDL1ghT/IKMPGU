@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить отдел</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Добавить отдел</h1>
+        <form th:action="@{/addDepartment}" method="post" th:object="${department}">
+            <div class="form-group">
+                <label for="name">Название отдела:</label>
+                <input type="text" id="name" th:field="*{name}" required>
+                <span class="error" th:if="${#fields.hasErrors('name')}" 
+                      th:errors="*{name}">Название должно быть от 2 до 30 символов</span>
+            </div>
+            <div class="form-group">
+                <label for="task">Задача отдела:</label>
+                <input type="text" id="task" th:field="*{task}" required>
+                <span class="error" th:if="${#fields.hasErrors('task')}" 
+                      th:errors="*{task}">Задача должна быть от 5 до 50 символов</span>
+            </div>
+            <button type="submit">
+                <i class="fas fa-plus"></i>
+                Добавить отдел
+            </button>
+        </form>
+        <a href="/" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Вернуться на главную
+        </a>
+    </div>
+</body>
+</html> 

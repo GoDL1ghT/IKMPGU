@@ -3,9 +3,9 @@ spring:
     name: IKMPGU
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/lab
+    url: jdbc:postgresql://localhost:5432/ikm
     username: postgres
-    password: 31702005
+    password: admin
     driver-class-name: org.postgresql.Driver
 
   jpa:

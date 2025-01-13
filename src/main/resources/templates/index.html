@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление компанией</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container main-container">
+        <header class="main-header">
+            <h1>Управление компанией</h1>
+            <div class="add-buttons">
+                <a href="/addDepartment" class="button button-add">
+                    <i class="fas fa-plus"></i>
+                    Добавить отдел
+                </a>
+                <a href="/addEmployee" class="button button-add">
+                    <i class="fas fa-plus"></i>
+                    Добавить сотрудника
+                </a>
+            </div>
+        </header>
+
+        <section class="departments-section">
+            <div class="section-header">
+                <i class="fas fa-building"></i>
+                <h2>Отделы</h2>
+            </div>
+            <div th:if="${departments.empty}" class="empty-message">
+                <i class="fas fa-info-circle"></i> Отделы пока не добавлены
+            </div>
+            <div class="cards-grid" th:unless="${departments.empty}">
+                <div th:each="department : ${departments}" class="card department-card">
+                    <div class="card-header">
+                        <span class="card-id" th:text="${'#' + department.id}">ID</span>
+                        <h3 class="card-title" th:text="${department.name}">Название</h3>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="task-label">
+                            <i class="fas fa-clipboard-list"></i>
+                            Задача отдела:
+                        </h4>
+                        <p class="task-text">
+                            <i class="fas fa-quote-left"></i>
+                            <span th:text="${department.task}">Задача</span>
+                        </p>
+                        <div class="employees-list" th:if="${not #lists.isEmpty(department.employees)}">
+                            <h4>
+                                <i class="fas fa-users"></i>
+                                Сотрудники отдела:
+                            </h4>
+                            <ul>
+                                <li th:each="employee : ${department.employees}" th:text="${employee.name}">
+                                    Имя сотрудника
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="employees-list" th:if="${#lists.isEmpty(department.employees)}">
+                            <h4>
+                                <i class="fas fa-users"></i>
+                                Сотрудники отдела:
+                            </h4>
+                            <div class="no-employees">
+                                <i class="fas fa-user-slash"></i>
+                                <span>Нет сотрудников в отделе</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a th:href="@{/editDepartment/{id}(id=${department.id})}" class="button button-edit">
+                            <i class="fas fa-edit"></i> Изменить
+                        </a>
+                        <a th:href="@{/deleteDepartment/{id}(id=${department.id})}" 
+                           class="button button-delete"
+                           onclick="return confirm('Вы уверены, что хотите удалить этот отдел?')">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <section class="employees-section">
+            <div class="section-header">
+                <i class="fas fa-user-tie"></i>
+                <h2>Сотрудники</h2>
+            </div>
+            <div th:if="${employees.empty}" class="empty-message">
+                <i class="fas fa-info-circle"></i> Сотрудники пока не добавлены
+            </div>
+            <div class="cards-grid" th:unless="${employees.empty}">
+                <div th:each="employee : ${employees}" class="card employee-card">
+                    <div class="card-header">
+                        <span class="card-id" th:text="${'#' + employee.id}">ID</span>
+                        <h3 class="card-title" th:text="${employee.name}">Имя</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="employee-department">
+                            <h4>
+                                <i class="fas fa-building"></i>
+                                Отдел:
+                            </h4>
+                            <div class="department-badge" th:if="${employee.department}">
+                                <i class="fas fa-building"></i>
+                                <span th:text="${employee.department.name}">Отдел</span>
+                            </div>
+                            <div class="department-badge no-department" th:unless="${employee.department}">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>Отдел не назначен</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a th:href="@{/editEmployee/{id}(id=${employee.id})}" class="button button-edit">
+                            <i class="fas fa-edit"></i> Изменить
+                        </a>
+                        <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" 
+                           class="button button-delete"
+                           onclick="return confirm('Вы уверены, что хотите удалить этого сотрудника?')">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
