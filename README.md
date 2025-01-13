@@ -81,7 +81,7 @@
 ## Стек технологий
 
 - **Backend:**
-  - Java 19
+  - Java 17
   - Spring Boot
   - Spring Data JPA
   - Hibernate
