@@ -8,33 +8,48 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div class="container">
-        <h1>Редактировать сотрудника</h1>
-        <form th:action="@{/editEmployee/{id}(id=${employee.id})}" method="post">
-            <div class="form-group">
-                <label for="name">Имя сотрудника:</label>
-                <input type="text" id="name" name="name" th:value="${employee.name}" required>
+<div class="container">
+    <h1>Редактировать сотрудника</h1>
+    <form th:action="@{/editEmployee/{id}(id=${employee.id})}" method="post">
+        <div class="form-group">
+            <label for="name">Имя сотрудника:</label>
+            <input type="text" id="name" name="name" th:value="${employee.name}" required>
+        </div>
+        <div class="form-group">
+            <label for="department">Отдел:</label>
+            <select id="department" name="department" required>
+                <option value="">Выберите отдел</option>
+                <option th:each="dept : ${departments}"
+                        th:value="${dept.id}"
+                        th:text="${dept.name}"
+                        th:selected="${dept.id == employee.department.id}">
+                </option>
+            </select>
+        </div>
+        <div class="tasks-section" th:if="${not #lists.isEmpty(employee.tasks)}">
+            <h3>Текущие задачи:</h3>
+            <div class="task-list">
+                <div class="task-item" th:each="task : ${employee.tasks}">
+                    <span th:text="${task.title}"></span>
+                    <span class="task-status" th:text="${task.status.displayName}"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="department">Отдел:</label>
-                <select id="department" name="department" required>
-                    <option value="">Выберите отдел</option>
-                    <option th:each="dept : ${departments}"
-                            th:value="${dept.id}"
-                            th:text="${dept.name}"
-                            th:selected="${dept.id == employee.department.id}">
-                    </option>
-                </select>
-            </div>
-            <button type="submit">
-                <i class="fas fa-save"></i>
-                Сохранить изменения
-            </button>
-        </form>
-        <a href="/" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-            Вернуться на главную
+        </div>
+        <button type="submit">
+            <i class="fas fa-save"></i>
+            Сохранить изменения
+        </button>
+    </form>
+    <div class="add-task-button">
+        <a th:href="@{/addTask/{id}(id=${employee.id})}" class="button button-add">
+            <i class="fas fa-plus"></i>
+            Добавить задачу
         </a>
     </div>
+    <a href="/" class="back-link">
+        <i class="fas fa-arrow-left"></i>
+        Вернуться на главную
+    </a>
+</div>
 </body>
 </html> 
